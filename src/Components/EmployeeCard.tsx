@@ -8,6 +8,9 @@ import {
   TextField,
   MenuItem,
 } from "@mui/material";
+import { DatePicker } from "@mui/lab";
+import dayjs, { Dayjs } from "dayjs";
+
 import ButtonComponent from "./Button";
 
 interface Employee {
@@ -32,7 +35,7 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
   onDemote,
   onUpdate,
 }) => {
-  const { id, name, role, startDate, department } = employee;
+  const { id, name, role, startDate, department, city } = employee;
   const avatarUrl = `https://api.multiavatar.com/${name}.svg`;
 
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -40,24 +43,20 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
   const [updatedDepartment, setUpdatedDepartment] = useState<string>(
     department || ""
   );
-  const [updatedcity, setUpdatedcity] = useState<string>(employee.city || "");
-  const [updatedStartDate, setUpdatedStartDate] = useState<string>(startDate);
+  const [updatedCity, setUpdatedCity] = useState<string>(city || "");
+  const [updatedStartDate, setUpdatedStartDate] = useState<Dayjs | null>(
+    dayjs(startDate)
+  );
 
   const [yearsWorked, setYearsWorked] = useState<number>(0);
   const [anniversaryMessage, setAnniversaryMessage] = useState<string>("");
 
   useEffect(() => {
-    const start = new Date(startDate);
+    if (!updatedStartDate) return;
+
+    const start = updatedStartDate.toDate();
     const today = new Date();
     const years = today.getFullYear() - start.getFullYear();
-
-    const formattedStartDate = `${start
-      .getDate()
-      .toString()
-      .padStart(2, "0")}-${(start.getMonth() + 1)
-      .toString()
-      .padStart(2, "0")}-${start.getFullYear()}`;
-    setUpdatedStartDate(formattedStartDate);
 
     const isAnniversary =
       today.getDate() === start.getDate() &&
@@ -67,20 +66,20 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
     setYearsWorked(years);
 
     if (isAnniversary) {
-      setAnniversaryMessage("Happy Anniversary!");
+      setAnniversaryMessage("🎉 Happy Work Anniversary! 🎉");
     } else if (isProbation) {
-      setAnniversaryMessage("Probation period review pending.");
+      setAnniversaryMessage("📝 Probation period review pending.");
     } else {
       setAnniversaryMessage("");
     }
-  }, [startDate]);
+  }, [updatedStartDate]);
 
   const handleSave = () => {
     onUpdate(id, {
       role: updatedRole,
       department: updatedDepartment,
-      city: updatedcity,
-      startDate: updatedStartDate,
+      city: updatedCity,
+      startDate: updatedStartDate ? updatedStartDate.format("YYYY-MM-DD") : "",
     });
     setIsEditing(false);
   };
@@ -88,7 +87,8 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
   const handleCancel = () => {
     setUpdatedRole(role);
     setUpdatedDepartment(department || "");
-    setUpdatedcity(employee.city || "");
+    setUpdatedCity(city || "");
+    setUpdatedStartDate(dayjs(startDate));
     setIsEditing(false);
   };
 
@@ -145,18 +145,17 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
               sx={{ marginBottom: 2 }}
             />
             <TextField
-              label="city"
-              value={updatedcity}
-              onChange={(e) => setUpdatedcity(e.target.value)}
+              label="City"
+              value={updatedCity}
+              onChange={(e) => setUpdatedCity(e.target.value)}
               fullWidth
               sx={{ marginBottom: 2 }}
             />
-            <TextField
+            <DatePicker
               label="Start Date"
               value={updatedStartDate}
-              onChange={(e) => setUpdatedStartDate(e.target.value)}
-              fullWidth
-              sx={{ marginBottom: 2 }}
+              onChange={(newValue) => setUpdatedStartDate(newValue)}
+              sx={{ width: "100%", marginBottom: 2 }}
             />
           </>
         ) : (
@@ -168,16 +167,20 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
               Department: {department || "N/A"}
             </Typography>
             <Typography variant="subtitle1" color="text.secondary">
-              Location: {employee.city || "N/A"}
+              Location: {city || "N/A"}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Start Date: {updatedStartDate}
+              Start Date: {updatedStartDate?.format("DD-MM-YYYY")}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               Years Worked: {yearsWorked}
             </Typography>
             {anniversaryMessage && (
-              <Typography variant="body2" color="primary">
+              <Typography
+                variant="body2"
+                color="primary"
+                className="animate__animated animate__tada"
+              >
                 {anniversaryMessage}
               </Typography>
             )}
