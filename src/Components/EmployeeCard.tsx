@@ -8,11 +8,15 @@ import {
   TextField,
   MenuItem,
 } from "@mui/material";
-import { DatePicker } from "@mui/lab";
 import dayjs, { Dayjs } from "dayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 import ButtonComponent from "./Button";
 
+// Define the Employee interface with optional fields
 interface Employee {
   id: number;
   name: string;
@@ -22,6 +26,7 @@ interface Employee {
   city?: string;
 }
 
+// Props for the EmployeeCard component
 interface EmployeeCardProps {
   employee: Employee;
   onPromote: (id: number) => void;
@@ -38,6 +43,7 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
   const { id, name, role, startDate, department, city } = employee;
   const avatarUrl = `https://api.multiavatar.com/${name}.svg`;
 
+  // State variables to control editing mode and hold updated field values
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [updatedRole, setUpdatedRole] = useState<string>(role);
   const [updatedDepartment, setUpdatedDepartment] = useState<string>(
@@ -48,9 +54,13 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
     dayjs(startDate)
   );
 
+  console.log("xxx", updatedStartDate);
+
+  // State for years worked and displaying anniversary/probation messages
   const [yearsWorked, setYearsWorked] = useState<number>(0);
   const [anniversaryMessage, setAnniversaryMessage] = useState<string>("");
 
+  // useEffect calculates the number of years worked and sets anniversary messages.
   useEffect(() => {
     if (!updatedStartDate) return;
 
@@ -58,9 +68,12 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
     const today = new Date();
     const years = today.getFullYear() - start.getFullYear();
 
+    // Check if today is the work anniversary date
     const isAnniversary =
       today.getDate() === start.getDate() &&
       today.getMonth() === start.getMonth();
+
+    // Define probation period as less than one year
     const isProbation = years < 1;
 
     setYearsWorked(years);
@@ -74,6 +87,7 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
     }
   }, [updatedStartDate]);
 
+  // Handle saving the updated information and exit editing mode
   const handleSave = () => {
     onUpdate(id, {
       role: updatedRole,
@@ -84,6 +98,7 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
     setIsEditing(false);
   };
 
+  // Handle canceling edits and reset the form values
   const handleCancel = () => {
     setUpdatedRole(role);
     setUpdatedDepartment(department || "");
@@ -92,6 +107,7 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
     setIsEditing(false);
   };
 
+  // Background colors based on the department
   const departmentColor: { [key: string]: string } = {
     HR: "#f0e68c",
     Engineering: "#add8e6",
@@ -113,6 +129,7 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
       }}
     >
       <CardContent>
+        {/* Display employee avatar and name */}
         <Box sx={{ display: "flex", alignItems: "center", marginBottom: 2 }}>
           <Avatar
             src={avatarUrl}
@@ -121,8 +138,10 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
           />
           <Typography variant="h6">{name}</Typography>
         </Box>
+
         {isEditing ? (
           <>
+            {/* Editable fields for Role, Department, City, and Start Date */}
             <TextField
               label="Role"
               value={updatedRole}
@@ -151,12 +170,15 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
               fullWidth
               sx={{ marginBottom: 2 }}
             />
-            <DatePicker
-              label="Start Date"
-              value={updatedStartDate}
-              onChange={(newValue) => setUpdatedStartDate(newValue)}
-              sx={{ width: "100%", marginBottom: 2 }}
-            />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer components={["DatePicker"]}>
+                <DatePicker
+                  label="Controlled field"
+                  value={updatedStartDate}
+                  onChange={(newValue: dayjs) => setUpdatedStartDate(newValue)}
+                />
+              </DemoContainer>
+            </LocalizationProvider>
           </>
         ) : (
           <>
@@ -186,6 +208,8 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
             )}
           </>
         )}
+
+        {/* Control buttons: Save/Cancel during editing, Promote/Demote/Edit in view mode */}
         <Box
           sx={{
             marginTop: 2,
