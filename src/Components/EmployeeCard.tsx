@@ -221,19 +221,19 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
               <ButtonComponent
                 label="Promote"
                 color="success"
-                sx={{ justifyContent: "space-between" }}
+                sx={{ justifyContent: "space-evenly" }}
                 onClick={() => onPromote(id)}
               />
               <ButtonComponent
                 label="Demote"
                 color="error"
-                sx={{ justifyContent: "space-between" }}
+                sx={{ justifyContent: "space-evenly" }}
                 onClick={() => onDemote(id)}
               />
               <ButtonComponent
                 label="Edit"
                 color="primary"
-                sx={{ justifyContent: "space-between" }}
+                sx={{ justifyContent: "space-evenly" }}
                 onClick={() => setIsEditing(true)}
               />
             </>
