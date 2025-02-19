@@ -32,7 +32,6 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
   onUpdate,
 }) => {
   const { id, name, role, startDate, department, city } = employee;
-  const avatarUrl = `https://api.multiavatar.com/${name}.svg`;
 
   // State variables to control editing mode and hold updated field values
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -120,7 +119,7 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
         {/* Display employee avatar and name */}
         <Box sx={{ display: "flex", alignItems: "center", marginBottom: 2 }}>
           <Avatar
-            src={avatarUrl}
+            src={`https://i.pravatar.cc/150?u=${name}`}
             alt={name}
             sx={{ width: 56, height: 56, marginRight: 2 }}
           />
