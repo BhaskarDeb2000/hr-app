@@ -59,7 +59,7 @@ HR-App is a simple and interactive web application designed to manage employees,
 
 ## Deployment
 
-Live Demo: [bch-hr-app.vercel.app](https://bch-hr-app.vercel.app/)
+Live Demo: [hr-app](https://hr-app-three.vercel.app/)
 
 ## Technologies Used
 
