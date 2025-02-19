@@ -1,50 +1,94 @@
-# React + TypeScript + Vite
+# HR-App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+HR-App is a simple and interactive web application designed to manage employees, departments, and job roles efficiently. The app provides a user-friendly interface to view, update, and manage employee details dynamically.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- **EmployeeCard Component:**
+  - Displays each employee’s name, role, location and start date.
+- **EmployeeList Component:**
+  - Renders multiple EmployeeCard components by passing employee details as props.
+- **Promotion & Demotion Functionality:**
+  - Employees can be promoted or demoted through buttons, following a predefined hierarchy:
+    - Intern → Junior Developer → Developer → Senior Developer → Lead Developer.
+- **State Management:**
+  - Employee roles are managed dynamically using React state.
+- **Employee Data Management:**
+  - [Backend data](https://bch-hr-backend.vercel.app/):
+    - `name`: Full name of the employee.
+    - `role`: Job role.
+    - `location`: Office location.
+    - `startDate`: Date of joining.
+    - `department`
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **Dynamic Employee List:**
+  - Renders the employee list as individual cards displaying:
+    - Name
+    - Role
+    - Location
+    - Start Date
+    - Department
+    - Years Worked (calculated dynamically)
+- **Log In Functionality:**
+  - Added a "Log In" button that toggles between:
+    - Employee list view (default when logged in).
+    - A login message when logged out.
+- **Years Worked Calculation:**
+  - Uses JavaScript’s `Date` object to dynamically calculate and display years worked.
+- **Anniversary & Probation Reminders:**
+  - Displays a "Happy Anniversary!" message if the current date matches an employee’s start date.
+  - Shows a probation reminder for employees with less than 1 year of experience.
+- **Props Destructuring:**
+  - Improved readability and maintainability by destructuring props in all components.
+- **Reusable Button Component:**
+  - Created a customizable Button component with support for:
+    - `label`
+    - `onClick`
+    - `color`
+  - Ensures consistency in UI and follows Material-UI styling standards.
+- **Editable Employee Details:**
+  - Added an "Edit" button to EmployeeCard to allow users to:
+    - Change an employee's role.
+    - Update the department.
+    - Modify location.
+- **Dynamic Department-Based Styling:**
+  - Employee cards visually adapt based on department assignments.
+  - Uses a mapping object to define styles per department, enhancing user experience.
 
-- Configure the top-level `parserOptions` property like this:
+## Deployment
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+Live Demo: [bch-hr-app.vercel.app](https://bch-hr-app.vercel.app/)
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Technologies Used
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+- Vite + React
+- TypeScript
+- Material UI
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## Installation & Setup
+
+1. Clone the repository:
+
+   ```sh
+   git clone https://github.com/your-repository/hr-app.git
+   ```
+
+2. Navigate to the project folder:
+
+   ```sh
+   cd hr-app
+   ```
+
+3. Install dependencies:
+
+   ```sh
+   npm install
+   ```
+
+4. Run the application:
+
+   ```sh
+   npm start
+   ```

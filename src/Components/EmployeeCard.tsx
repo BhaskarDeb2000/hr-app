@@ -87,7 +87,7 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
 
   // Handle canceling edits and reset the form values
   const handleCancel = () => {
-    setUpdatedRole(role);
+    setUpdatedRole(role || "");
     setUpdatedDepartment(department || "");
     setUpdatedCity(city || "");
     setUpdatedStartDate(dayjs(startDate));
@@ -131,7 +131,7 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
             {/* Editable fields for Role, Department, City, and Start Date */}
             <TextField
               label="Role"
-              value={updatedRole}
+              value={role}
               onChange={(e) => setUpdatedRole(e.target.value)}
               select
               fullWidth
