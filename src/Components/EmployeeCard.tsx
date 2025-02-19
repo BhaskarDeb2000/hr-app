@@ -13,18 +13,9 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { Employee } from "./type";
 
 import ButtonComponent from "./Button";
-
-// Define the Employee interface with optional fields
-interface Employee {
-  id: number;
-  name: string;
-  role: string;
-  startDate: string;
-  department?: string;
-  city?: string;
-}
 
 // Props for the EmployeeCard component
 interface EmployeeCardProps {
@@ -46,15 +37,12 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
   // State variables to control editing mode and hold updated field values
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [updatedRole, setUpdatedRole] = useState<string>(role);
-  const [updatedDepartment, setUpdatedDepartment] = useState<string>(
-    department || ""
-  );
-  const [updatedCity, setUpdatedCity] = useState<string>(city || "");
+  const [updatedDepartment, setUpdatedDepartment] =
+    useState<string>(department);
+  const [updatedCity, setUpdatedCity] = useState<string>(city);
   const [updatedStartDate, setUpdatedStartDate] = useState<Dayjs | null>(
     dayjs(startDate)
   );
-
-  console.log("xxx", updatedStartDate);
 
   // State for years worked and displaying anniversary/probation messages
   const [yearsWorked, setYearsWorked] = useState<number>(0);
@@ -175,7 +163,10 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
                 <DatePicker
                   label="Controlled field"
                   value={updatedStartDate}
-                  onChange={(newValue: dayjs) => setUpdatedStartDate(newValue)}
+                  onChange={(newValue: Dayjs | null) =>
+                    setUpdatedStartDate(newValue)
+                  }
+                  disableFuture={true}
                 />
               </DemoContainer>
             </LocalizationProvider>

@@ -3,14 +3,7 @@ import { Button } from "@mui/material";
 
 interface ButtonComponentProps {
   label: string;
-  color:
-    | "inherit"
-    | "primary"
-    | "secondary"
-    | "success"
-    | "error"
-    | "info"
-    | "warning";
+  color: "inherit" | "primary" | "secondary" | "success" | "error";
   onClick: () => void;
   variant?: "text" | "outlined" | "contained";
   sx?: object;

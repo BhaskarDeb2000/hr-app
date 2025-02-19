@@ -1,16 +1,9 @@
 import React, { useState, useEffect } from "react";
 import EmployeeCard from "./EmployeeCard";
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import axios from "axios";
-
-interface Employee {
-  id: number;
-  name: string;
-  role: string;
-  startDate: string;
-  department?: string;
-  city?: string;
-}
+import Loader from "./Loader";
+import { Employee } from "./type";
 
 const rolesHierarchy: string[] = [
   "Intern",
@@ -77,15 +70,9 @@ const EmployeeList: React.FC = () => {
     );
   };
 
-  const Loader: React.FC = () => (
-    <Box sx={{ textAlign: "center", marginTop: 4 }}>
-      <CircularProgress />
-      <Typography variant="body1" sx={{ marginTop: 2 }}>
-        Loading employees...
-      </Typography>
-    </Box>
-  );
-
+  /**
+   * Display a message when no employees are found
+   */
   const NoEmployees: React.FC = () => (
     <Box sx={{ textAlign: "center", marginTop: 4 }}>
       <Typography variant="h6">No employees found!</Typography>
