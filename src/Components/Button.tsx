@@ -7,6 +7,7 @@ interface ButtonComponentProps {
   onClick: () => void;
   variant?: "text" | "outlined" | "contained";
   sx?: object;
+  justifyContent?: "space-between" | "space-around" | "space-evenly";
 }
 
 const ButtonComponent: React.FC<ButtonComponentProps> = ({
@@ -15,6 +16,7 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({
   onClick,
   variant = "outlined",
   sx,
+  justifyContent,
 }) => {
   return (
     <Button
@@ -24,6 +26,7 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({
       sx={{
         ...sx,
         textTransform: "none",
+        justifyContent: justifyContent,
       }}
     >
       {label}
