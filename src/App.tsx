@@ -17,10 +17,7 @@ const App: React.FC = () => {
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
 
-  /**
-   * Handles user login validation.
-   * If credentials match, logs the user in, otherwise sets an error message.
-   */
+  // Logs the user in if the username and password are correct
   const handleLogin = (): void => {
     if (username === "test" && password === "test1") {
       setIsLoggedIn(true);
@@ -30,10 +27,7 @@ const App: React.FC = () => {
     }
   };
 
-  /**
-   * Handles user logout.
-   * Clears authentication state and resets user input fields.
-   */
+  // Logs the user out and clears the username and password fields
   const handleLogout = (): void => {
     setIsLoggedIn(false);
     setUsername("");

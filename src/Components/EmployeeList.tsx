@@ -17,6 +17,7 @@ const EmployeeList: React.FC = () => {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
+  // fetch employees from the backend
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
@@ -31,6 +32,7 @@ const EmployeeList: React.FC = () => {
     fetchEmployees();
   }, []);
 
+  // Promote an employee to the next role
   const promoteEmployee = (id: number): void => {
     setEmployees((prev) =>
       prev.map((emp) =>
@@ -49,6 +51,7 @@ const EmployeeList: React.FC = () => {
     );
   };
 
+  // Demote an employee to the previous role
   const demoteEmployee = (id: number): void => {
     setEmployees((prev) =>
       prev.map((emp) =>
@@ -64,6 +67,7 @@ const EmployeeList: React.FC = () => {
     );
   };
 
+  // Update an employee's details
   const updateEmployee = (id: number, updates: Partial<Employee>): void => {
     setEmployees((prev) =>
       prev.map((emp) => (emp.id === id ? { ...emp, ...updates } : emp))
