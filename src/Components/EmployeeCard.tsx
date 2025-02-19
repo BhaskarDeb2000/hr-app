@@ -188,11 +188,7 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
               Years Worked: {yearsWorked}
             </Typography>
             {anniversaryMessage && (
-              <Typography
-                variant="body2"
-                color="primary"
-                className="animate__animated animate__tada"
-              >
+              <Typography variant="body2" color="primary">
                 {anniversaryMessage}
               </Typography>
             )}
