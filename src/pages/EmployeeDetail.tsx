@@ -126,7 +126,10 @@ const EmployeeDetail: React.FC = () => {
       </Paper>
 
       {/* Work History Section */}
-      <Typography variant="h5" sx={{ fontWeight: "bold", marginBottom: 2 }}>
+      <Typography
+        variant="h5"
+        sx={{ fontWeight: "bold", marginBottom: 2, color: "white" }}
+      >
         Work History
       </Typography>
 

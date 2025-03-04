@@ -21,7 +21,11 @@ const Navbar: React.FC = () => {
   return (
     <AppBar position="sticky">
       <Toolbar>
-        <Typography variant="h6" sx={{ flexGrow: 1 }}>
+        <Typography
+          variant="h6"
+          sx={{ flexGrow: 1 }}
+          onClick={() => navigate("/home")}
+        >
           Employee Management System
         </Typography>
         <Box>
