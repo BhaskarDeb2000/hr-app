@@ -112,7 +112,7 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
   return (
     <Card
       sx={{
-        width: "40vh",
+        width: "42vh",
         boxShadow: 3,
         padding: 3,
         borderRadius: 2,
