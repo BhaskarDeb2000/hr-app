@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import EmployeeCard from "./EmployeeCard";
+import EmployeeCard from "../Components/EmployeeCard";
 import { Box, Typography } from "@mui/material";
 import axios from "axios";
-import Loader from "./Loader";
-import { Employee } from "./type";
+import Loader from "../Components/Loader";
+import { Employee } from "../Components/type";
+import { useEmployeeContext } from "../contexts/EmployeeContext"; // Importing the context
 
 const rolesHierarchy: string[] = [
   "Intern",
@@ -17,7 +18,8 @@ const EmployeeList: React.FC = () => {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  // fetch employees from the backend
+  const { employees: contextEmployees } = useEmployeeContext(); // Use the context data
+  // Fetch employees from the backend API
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
@@ -31,6 +33,9 @@ const EmployeeList: React.FC = () => {
     };
     fetchEmployees();
   }, []);
+
+  // Combine the API data with the context data (if available)
+  const combinedEmployees = [...contextEmployees, ...employees];
 
   // Promote an employee to the next role
   const promoteEmployee = (id: number): void => {
@@ -74,9 +79,7 @@ const EmployeeList: React.FC = () => {
     );
   };
 
-  /**
-   * Display a message when no employees are found
-   */
+  // Display a message when no employees are found
   const NoEmployees: React.FC = () => (
     <Box sx={{ textAlign: "center", marginTop: 4 }}>
       <Typography variant="h6">No employees found!</Typography>
@@ -87,7 +90,7 @@ const EmployeeList: React.FC = () => {
     <Box>
       {loading ? (
         <Loader />
-      ) : employees.length === 0 ? (
+      ) : combinedEmployees.length === 0 ? (
         <NoEmployees />
       ) : (
         <Box
@@ -100,7 +103,7 @@ const EmployeeList: React.FC = () => {
             marginTop: 3,
           }}
         >
-          {employees.map((employee) => (
+          {combinedEmployees.map((employee) => (
             <EmployeeCard
               key={employee.id}
               employee={employee}

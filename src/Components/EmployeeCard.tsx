@@ -14,6 +14,7 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Employee } from "./type";
+import { useNavigate } from "react-router-dom";
 
 import ButtonComponent from "./Button";
 
@@ -32,6 +33,11 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
   onUpdate,
 }) => {
   const { id, name, role, startDate, department, city } = employee;
+  const navigate = useNavigate();
+
+  const handleDetailPage = () => {
+    navigate(`/employee/${id}`);
+  };
 
   // State variables to control editing mode and hold updated field values
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -238,6 +244,11 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
               />
             </>
           )}
+          <ButtonComponent
+            label="Detail"
+            color="success"
+            onClick={handleDetailPage}
+          />
         </Box>
       </CardContent>
     </Card>
