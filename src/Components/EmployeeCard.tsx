@@ -190,7 +190,7 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
               Years Worked: {yearsWorked}
             </Typography>
             {anniversaryMessage && (
-              <Typography variant="body2" color="primary" margin={4}>
+              <Typography variant="body2" color="primary" margin={1}>
                 {anniversaryMessage}
               </Typography>
             )}
