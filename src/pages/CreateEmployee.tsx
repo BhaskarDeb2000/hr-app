@@ -32,7 +32,9 @@ const CreateEmployee: React.FC = () => {
       id: Date.now(), // Using current timestamp as unique ID
       name,
       role,
-      startDate: startDate ? startDate.format("YYYY-MM-DD") : "",
+      startDate: startDate
+        ? startDate.format("YYYY-MM-DD")
+        : today.format("YYYY-MM-DD"),
       department,
       city,
       workHistory: [
