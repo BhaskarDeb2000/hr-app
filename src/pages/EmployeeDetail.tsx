@@ -11,7 +11,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import axios from "axios";
-import { Employee, WorkHistory } from "../Components/type";
+import { Employee, WorkHistory } from "../types/type";
 import { useEmployeeContext } from "../contexts/EmployeeContext";
 
 const EmployeeDetail: React.FC = () => {

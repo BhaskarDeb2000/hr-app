@@ -3,7 +3,7 @@ import EmployeeCard from "../Components/EmployeeCard";
 import { Box, Typography } from "@mui/material";
 import axios from "axios";
 import Loader from "../Components/Loader";
-import { Employee } from "../Components/type";
+import { Employee } from "../types/type";
 import { useEmployeeContext } from "../contexts/EmployeeContext"; // Importing the context
 
 const rolesHierarchy: string[] = [

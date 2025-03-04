@@ -14,13 +14,15 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
-import { Employee, useEmployeeContext } from "../contexts/EmployeeContext";
+import { useEmployeeContext } from "../contexts/EmployeeContext";
+import { Employee } from "../types/type";
 
 const CreateEmployee: React.FC = () => {
   const [name, setName] = useState<string>("");
   const [role, setRole] = useState<string>("");
   const [startDate, setStartDate] = useState<Dayjs | null>(dayjs(null));
   const { addEmployee } = useEmployeeContext();
+  const today = dayjs();
 
   const [department, setDepartment] = useState<string>("");
   const [city, setCity] = useState<string>("");
