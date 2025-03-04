@@ -123,12 +123,8 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
     >
       <CardContent>
         {/* Display employee avatar and name */}
-        <Box sx={{ display: "flex", alignItems: "center", marginBottom: 2 }}>
-          <Avatar
-            src={`https://i.pravatar.cc/150?u=${name}`}
-            alt={name}
-            sx={{ width: 56, height: 56, marginRight: 2 }}
-          />
+        <Box>
+          <Avatar src={`https://i.pravatar.cc/150?u=${name}`} alt={name} />
           <Typography variant="h6">{name}</Typography>
         </Box>
 
@@ -182,10 +178,10 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
               Role: {role}
             </Typography>
             <Typography variant="subtitle1" color="text.secondary">
-              Department: {department || "N/A"}
+              Department: {department}
             </Typography>
             <Typography variant="subtitle1" color="text.secondary">
-              Location: {city || "N/A"}
+              Location: {city}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               Start Date: {updatedStartDate?.format("DD-MM-YYYY")}
@@ -194,7 +190,7 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
               Years Worked: {yearsWorked}
             </Typography>
             {anniversaryMessage && (
-              <Typography variant="body2" color="primary">
+              <Typography variant="body2" color="primary" margin={4}>
                 {anniversaryMessage}
               </Typography>
             )}
@@ -206,7 +202,8 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
           sx={{
             marginTop: 2,
             display: "flex",
-            justifyContent: "space-between",
+            justifyContent: "space-evenly", // or "space-around"
+            width: "100%", // Ensure the Box takes the full width of the container
           }}
         >
           {isEditing ? (
@@ -227,28 +224,29 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
               <ButtonComponent
                 label="Promote"
                 color="success"
-                sx={{ justifyContent: "space-evenly" }}
                 onClick={() => onPromote(id)}
+                sx={{ marginRight: 1 }} // Adjust this for spacing
               />
               <ButtonComponent
                 label="Demote"
                 color="error"
-                sx={{ justifyContent: "space-evenly" }}
                 onClick={() => onDemote(id)}
+                sx={{ marginRight: 1 }} // Adjust this for spacing
               />
               <ButtonComponent
                 label="Edit"
                 color="primary"
-                sx={{ justifyContent: "space-evenly" }}
                 onClick={() => setIsEditing(true)}
+                sx={{ marginRight: 1 }} // Adjust this for spacing
+              />
+              <ButtonComponent
+                label="Detail"
+                color="success"
+                onClick={handleDetailPage}
+                sx={{ marginRight: 1 }} // Adjust this for spacing
               />
             </>
           )}
-          <ButtonComponent
-            label="Detail"
-            color="success"
-            onClick={handleDetailPage}
-          />
         </Box>
       </CardContent>
     </Card>
