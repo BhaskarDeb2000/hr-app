@@ -112,7 +112,7 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
   return (
     <Card
       sx={{
-        width: "30vh",
+        width: "40vh",
         boxShadow: 3,
         padding: 3,
         borderRadius: 2,
@@ -197,13 +197,12 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
           </>
         )}
 
-        {/* Control buttons: Save/Cancel during editing, Promote/Demote/Edit in view mode */}
         <Box
           sx={{
             marginTop: 2,
             display: "flex",
-            justifyContent: "space-evenly", // or "space-around"
-            width: "100%", // Ensure the Box takes the full width of the container
+            justifyContent: "space-evenly",
+            width: "100%",
           }}
         >
           {isEditing ? (
