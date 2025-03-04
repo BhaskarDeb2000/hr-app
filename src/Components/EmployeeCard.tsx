@@ -162,7 +162,7 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={["DatePicker"]}>
                 <DatePicker
-                  label="Controlled field"
+                  label="Start Date"
                   value={updatedStartDate}
                   onChange={(newValue: Dayjs | null) =>
                     setUpdatedStartDate(newValue)
