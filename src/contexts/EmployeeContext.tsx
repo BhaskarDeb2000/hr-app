@@ -1,10 +1,10 @@
 import React, { createContext, useState, useContext, ReactNode } from "react";
+
 import { Employee } from "../types/type";
 
 interface EmployeeContextType {
   employees: Employee[];
   addEmployee: (employee: Employee) => void;
-  updateEmployee: (id: number, updatedEmployee: Partial<Employee>) => void;
 }
 
 const EmployeeContext = createContext<EmployeeContextType | undefined>(
@@ -31,18 +31,8 @@ export const EmployeeProvider: React.FC<{ children: ReactNode }> = ({
     setEmployees((prevEmployees) => [...prevEmployees, employee]);
   };
 
-  const updateEmployee = (id: number, updatedEmployee: Partial<Employee>) => {
-    setEmployees((prevEmployees) =>
-      prevEmployees.map((emp) =>
-        emp.id === id ? { ...emp, ...updatedEmployee } : emp
-      )
-    );
-  };
-
   return (
-    <EmployeeContext.Provider
-      value={{ employees, addEmployee, updateEmployee }}
-    >
+    <EmployeeContext.Provider value={{ employees, addEmployee }}>
       {children}
     </EmployeeContext.Provider>
   );
