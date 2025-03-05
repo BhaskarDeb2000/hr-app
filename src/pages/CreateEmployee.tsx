@@ -18,20 +18,64 @@ import { useEmployeeContext } from "../contexts/EmployeeContext";
 import { Employee } from "../types/type";
 
 const CreateEmployee: React.FC = () => {
+  const today = dayjs();
+  const navigate = useNavigate();
   const [name, setName] = useState<string>("");
   const [role, setRole] = useState<string>("");
-  const [startDate, setStartDate] = useState<Dayjs | null>(dayjs(null));
+  const [startDate, setStartDate] = useState<Dayjs | null>(today);
   const { addEmployee } = useEmployeeContext();
-  const today = dayjs();
-
   const [department, setDepartment] = useState<string>("");
   const [city, setCity] = useState<string>("");
+  const [errors, setErrors] = useState({
+    name: "",
+    role: "",
+    department: "",
+    city: "",
+  });
 
-  const navigate = useNavigate();
+  const validateForm = () => {
+    const formErrors = { ...errors };
+    let isValid = true;
+
+    if (!name) {
+      formErrors.name = "Name is required";
+      isValid = false;
+    } else {
+      formErrors.name = "";
+    }
+
+    if (!role) {
+      formErrors.role = "Role is required";
+      isValid = false;
+    } else {
+      formErrors.role = "";
+    }
+
+    if (!department) {
+      formErrors.department = "Department is required";
+      isValid = false;
+    } else {
+      formErrors.department = "";
+    }
+
+    if (!city) {
+      formErrors.city = "City is required";
+      isValid = false;
+    } else {
+      formErrors.city = "";
+    }
+
+    setErrors(formErrors);
+    return isValid;
+  };
 
   const handleCreateEmployee = () => {
+    if (!validateForm()) {
+      return; // Stop if validation fails
+    }
+
     const newEmployee: Employee = {
-      id: Date.now(), // Using current timestamp as unique ID
+      id: Date.now(), // Generate unique ID
       name,
       role,
       startDate: startDate
@@ -88,6 +132,8 @@ const CreateEmployee: React.FC = () => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
+                error={!!errors.name}
+                helperText={errors.name}
               />
             </Grid>
 
@@ -100,6 +146,8 @@ const CreateEmployee: React.FC = () => {
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
                 required
+                error={!!errors.role}
+                helperText={errors.role}
               >
                 <MenuItem value="Intern">Intern</MenuItem>
                 <MenuItem value="Junior Developer">Junior Developer</MenuItem>
@@ -116,6 +164,7 @@ const CreateEmployee: React.FC = () => {
                   value={startDate}
                   onChange={(newValue: Dayjs | null) => setStartDate(newValue)}
                   disableFuture={true}
+                  defaultValue={today}
                 />
               </LocalizationProvider>
             </Grid>
@@ -128,6 +177,8 @@ const CreateEmployee: React.FC = () => {
                 value={department}
                 onChange={(e) => setDepartment(e.target.value)}
                 required
+                error={!!errors.department}
+                helperText={errors.department}
               />
             </Grid>
 
@@ -136,10 +187,19 @@ const CreateEmployee: React.FC = () => {
                 label="City"
                 variant="outlined"
                 fullWidth
+                select
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 required
-              />
+                error={!!errors.city}
+                helperText={errors.city}
+              >
+                <MenuItem value="Helsinki">Helsinki</MenuItem>
+                <MenuItem value="Oulu">Oulu</MenuItem>
+                <MenuItem value="Tampere">Tampere</MenuItem>
+                <MenuItem value="Kuopio">Kuopio</MenuItem>
+                <MenuItem value="Pori">Pori</MenuItem>
+              </TextField>
             </Grid>
 
             <Grid item xs={12}>

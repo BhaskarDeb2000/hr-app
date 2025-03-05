@@ -37,7 +37,7 @@ const EmployeeDetail: React.FC = () => {
         // Assuming the entire response is the employee object
         setEmployee(response.data);
       } catch (_) {
-        setError(`No work history found of employee with ID: ${id}`);
+        setError(`No work history found of employee this employee.`);
         console.error("No work history found.", _);
       } finally {
         setLoading(false);
