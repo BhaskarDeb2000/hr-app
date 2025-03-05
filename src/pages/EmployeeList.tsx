@@ -15,10 +15,10 @@ const rolesHierarchy: string[] = [
 ];
 
 const EmployeeList: React.FC = () => {
-  const [employees, setEmployees] = useState<Employee[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const { employees: contextEmployees, updateEmployee } = useEmployeeContext(); // Use context's data and updateEmployee function
+  const [employees, setEmployees] = useState<Employee[]>([]);
 
-  const { employees: contextEmployees } = useEmployeeContext(); // Use the context data
   // Fetch employees from the backend API
   useEffect(() => {
     const fetchEmployees = async () => {
@@ -39,44 +39,29 @@ const EmployeeList: React.FC = () => {
 
   // Promote an employee to the next role
   const promoteEmployee = (id: number): void => {
-    setEmployees((prev) =>
-      prev.map((emp) =>
-        emp.id === id
-          ? {
-              ...emp,
-              role: rolesHierarchy[
-                Math.min(
-                  rolesHierarchy.indexOf(emp.role) + 1,
-                  rolesHierarchy.length - 1
-                )
-              ],
-            }
-          : emp
-      )
-    );
+    const employeeToUpdate = combinedEmployees.find((emp) => emp.id === id);
+    if (employeeToUpdate) {
+      const updatedRole =
+        rolesHierarchy[
+          Math.min(
+            rolesHierarchy.indexOf(employeeToUpdate.role) + 1,
+            rolesHierarchy.length - 1
+          )
+        ];
+      updateEmployee(id, { role: updatedRole });
+    }
   };
 
   // Demote an employee to the previous role
   const demoteEmployee = (id: number): void => {
-    setEmployees((prev) =>
-      prev.map((emp) =>
-        emp.id === id
-          ? {
-              ...emp,
-              role: rolesHierarchy[
-                Math.max(rolesHierarchy.indexOf(emp.role) - 1, 0)
-              ],
-            }
-          : emp
-      )
-    );
-  };
-
-  // Update an employee's details
-  const updateEmployee = (id: number, updates: Partial<Employee>): void => {
-    setEmployees((prev) =>
-      prev.map((emp) => (emp.id === id ? { ...emp, ...updates } : emp))
-    );
+    const employeeToUpdate = combinedEmployees.find((emp) => emp.id === id);
+    if (employeeToUpdate) {
+      const updatedRole =
+        rolesHierarchy[
+          Math.max(rolesHierarchy.indexOf(employeeToUpdate.role) - 1, 0)
+        ];
+      updateEmployee(id, { role: updatedRole });
+    }
   };
 
   // Display a message when no employees are found
