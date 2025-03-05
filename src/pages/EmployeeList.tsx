@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import EmployeeCard from "../Components/EmployeeCard";
 import { Box, Typography } from "@mui/material";
 import axios from "axios";
@@ -19,6 +19,12 @@ const EmployeeList: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   const { employees: contextEmployees } = useEmployeeContext(); // Use the context data
+
+  // Combine contextEmployees and local employees, memoizing to avoid unnecessary recalculation
+  const combinedEmployees = useMemo(() => {
+    return [...contextEmployees, ...employees];
+  }, [contextEmployees, employees]);
+
   // Fetch employees from the backend API
   useEffect(() => {
     const fetchEmployees = async () => {
@@ -34,49 +40,57 @@ const EmployeeList: React.FC = () => {
     fetchEmployees();
   }, []);
 
-  // Combine the API data with the context data (if available)
-  const combinedEmployees = [...contextEmployees, ...employees];
+  useEffect(() => {
+    // If the contextEmployees array changes, sync it with local state (employees)
+    setEmployees(contextEmployees);
+  }, [contextEmployees]);
 
   // Promote an employee to the next role
   const promoteEmployee = (id: number): void => {
-    setEmployees((prev) =>
-      prev.map((emp) =>
-        emp.id === id
-          ? {
-              ...emp,
-              role: rolesHierarchy[
-                Math.min(
-                  rolesHierarchy.indexOf(emp.role) + 1,
-                  rolesHierarchy.length - 1
-                )
-              ],
-            }
-          : emp
-      )
+    const updatedEmployees = employees.map((emp) =>
+      emp.id === id
+        ? {
+            ...emp,
+            role: rolesHierarchy[
+              Math.min(
+                rolesHierarchy.indexOf(emp.role) + 1,
+                rolesHierarchy.length - 1
+              )
+            ],
+          }
+        : emp
     );
+
+    // Update both local state and context
+    setEmployees(updatedEmployees);
+    // Assuming updateEmployeeInContext updates the context
   };
 
   // Demote an employee to the previous role
   const demoteEmployee = (id: number): void => {
-    setEmployees((prev) =>
-      prev.map((emp) =>
-        emp.id === id
-          ? {
-              ...emp,
-              role: rolesHierarchy[
-                Math.max(rolesHierarchy.indexOf(emp.role) - 1, 0)
-              ],
-            }
-          : emp
-      )
+    const updatedEmployees = employees.map((emp) =>
+      emp.id === id
+        ? {
+            ...emp,
+            role: rolesHierarchy[
+              Math.max(rolesHierarchy.indexOf(emp.role) - 1, 0)
+            ],
+          }
+        : emp
     );
+
+    // Update both local state and context
+    setEmployees(updatedEmployees);
+    // Assuming updateEmployeeInContext updates the context
   };
 
   // Update an employee's details
   const updateEmployee = (id: number, updates: Partial<Employee>): void => {
-    setEmployees((prev) =>
-      prev.map((emp) => (emp.id === id ? { ...emp, ...updates } : emp))
+    const updatedEmployees = employees.map((emp) =>
+      emp.id === id ? { ...emp, ...updates } : emp
     );
+
+    setEmployees(updatedEmployees); // Update context as well
   };
 
   // Display a message when no employees are found
